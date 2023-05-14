@@ -1,0 +1,14 @@
+[
+    {
+        "index":0,
+        "methodname":"core_message_get_conversation_messages",
+        "args":
+        {
+            "currentuserid":0,
+            "convid":0,
+            "newest":true,
+            "limitnum":0,
+            "limitfrom":0
+        }
+    }
+]

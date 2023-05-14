@@ -1,0 +1,11 @@
+[
+    {
+        "index":0,
+        "methodname":"core_message_mark_all_conversation_messages_as_read",
+        "args":
+        {
+            "userid":0,
+            "conversationid":0
+        }
+    }
+]

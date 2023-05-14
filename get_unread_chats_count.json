@@ -1,0 +1,18 @@
+[
+    {
+        "index":0,
+        "methodname":"core_message_get_conversation_counts",
+        "args":
+        {
+            "userid":""
+        }
+    },
+    {
+        "index":1,
+        "methodname":"core_message_get_unread_conversation_counts",
+        "args":
+        {
+            "userid":""
+        }
+    }
+]

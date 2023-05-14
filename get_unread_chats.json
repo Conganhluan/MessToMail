@@ -1,0 +1,15 @@
+[
+    {
+        "index":0,
+        "methodname":"core_message_get_conversations",
+        "args":
+        {
+            "userid":"",
+            "type":1,
+            "limitnum":51,
+            "limitfrom":0,
+            "favourites":false,
+            "mergeself":true
+        }
+    }
+]
