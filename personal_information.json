@@ -5,6 +5,8 @@
         "bkel_username" : "",
         "bkel_password" : "",
         "webmail_host" : "",
-        "use_option" : 0    
+        "SMTP_user" : "",
+        "SMTP_password" : "",
+        "use_option" : 0
     }
 ]
