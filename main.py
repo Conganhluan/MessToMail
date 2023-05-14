@@ -163,7 +163,7 @@ if use_option == 1 or use_option == 3:
         msg['From'] = email_sender
         msg['To'] = email_receiver
         for j in messages[i]:
-            body = MIMEText(j, 'html')
+            body = MIMEText(j, 'html', "UTF-8")
             msg.attach(body)
             s = smtplib.SMTP(webmail_host)
             #s.login(SMTP_user, SMTP_password)
