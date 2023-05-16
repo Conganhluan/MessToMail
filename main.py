@@ -93,6 +93,7 @@ json_obj[1]["args"]["userid"] = userid
 response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
 json_response = response.json()
 num_of_unread_chat = json_response[1]["data"]["types"]["1"]
+num_of_total_chat = json_response[0]["data"]["types"]["1"]
 if num_of_unread_chat == 0:
     sys.exit("There is none of unread messages")
 else:
@@ -112,10 +113,11 @@ json_response = response.json()
 id_unread_chats = []
 num_unread_messages = []
 messages = {}
-for i in range(0, num_of_unread_chat):
+for i in range(0, num_of_total_chat):
     chat = json_response[0]["data"]["conversations"][i]
-    id_unread_chats.append(chat["id"])
-    num_unread_messages.append(chat["unreadcount"])
+    if (chat["unreadcount"] != None):
+        id_unread_chats.append(chat["id"])
+        num_unread_messages.append(chat["unreadcount"])
 
     #Load the json prepared for the request
 json_obj = getJson("get_messages.json")
