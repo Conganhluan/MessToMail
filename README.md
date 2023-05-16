@@ -1,9 +1,9 @@
 # MESSAGE TO MAIL
 Đây là một chương trình phục vụ cho mục đích cá nhân chính là có thể chuyển những tin nhắn trên Bkel - trang web dùng để trao đổi của những giảng viên và sinh viên thuộc trường Đại học Bách Khoa - ĐHQG-HCM - thành những email và gửi về trực tiếp đến gmail cá nhân của mình.  
-Mã nguồn đã được viết theo hướng phù hợp với tất cả mọi người sử dụng nếu có bất kì ai cũng có nhu cầu giống mình; nhưng tất nhiên sẽ có vài điểm cần sửạ lại cho phù hợp với từng người, mình sẽ đề cập rõ hơn bên dưới.  
-  
+Mã nguồn đã được viết theo hướng phù hợp cho tất cả người dùng nếu có nhu cầu giống mình; nhưng tất nhiên sẽ có vài điểm cần chỉnh sửa để phù hợp với từng người, mình sẽ đề cập rõ hơn bên dưới.  
+    
 This is a program created for personal purpose, which is to convert the messages on Bkel - the website used for interactions between every teachers and students in HCM city University of Technology - into emails and send them directly to my personal email.  
-The source code is designed to be suitable for anyone whose need is like me; but of course, there will be some elements which need personalizing to fit the user, I will go into details below.  
+The source code was designed to be suitable for anyone whose need is like me; but of course, there will be some elements which need personalizing to fit the user, I will go into details below.  
   
 ## Điều kiện tiên quyết/ Presiquites:
 Để chạy được các code này, máy tính cần có Python. Ngoài các thư viện đã có sẵn, bạn cũng cần phải cài đặt những thư viện riêng mà chương trình đã sử dụng bao gồm `requests`, `emails`, `beautifulsoup4` nếu máy bạn chưa có. 
@@ -46,6 +46,6 @@ To install, you download (or clone) the source code, then fill completely your p
 To run the program, you will run `python /path/to/main.py` and it's done. For the most effciency, you should use another programs for scheduling this program to run periodically. If you run this program on your own hosting and encounter error, you may un-commment `#session.verify = False` to fix it. Please let me know when you encounter a bug, I will fix and update the program as soon as possible!  
   
 ## Nguồn tham khảo/ References
-Mình xin gửi lời cảm ơn chân thành đến những người lạ mặt mình chưa hề quen biết, nhưng lại giúp đỡ mình rất nhiều trên các diễn đàn, khi mình đang bước trên con đường của sự đau khổ và tuyệt vọng. Cụ thể hơn, những trang web mình đã học tập, tham khảo, cũng như tham gia vào các cuộc hỏi đáp hữu ích từ những người đi trước sẽ được mình để ở bài viết của mình https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, các bạn hãy đón xem nha!  
+Mình xin gửi lời cảm ơn chân thành đến những người lạ mà mình chưa quen biết, nhưng lại giúp đỡ mình rất nhiều trên các diễn đàn khi mình đang bước trên con đường của sự đau khổ và tuyệt vọng. Cụ thể hơn, những trang web mình đã học tập, tham khảo, cũng như tham gia vào các cuộc hỏi đáp hữu ích từ những người đi trước sẽ được mình để ở bài viết của mình https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, các bạn hãy đón xem nha!  
   
-I would love to say sincerely "thank you" to those all strangers, who I never know, but have helped me a lot on the forums, when I am feeling depressed and painful. For more detail, the websites that I have learned, referenced, and taken part in extremely useful Q&As from predecessors will be revealed on the post https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, looking forward to seeing you there!
+I would love to say sincerely "thank you" to those all strangers, whom I have ever known, but have helped me a lot on the forums when I am feeling depressed and painful. For more detail, the websites that I have learned, referenced, and taken part in extremely useful Q&As from predecessors will be revealed on the post https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, looking forward to seeing you there!
