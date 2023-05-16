@@ -7,6 +7,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup as BS
 
+MAX_RETRIES = 5
+#sys.stderr = open("/dev/null", "w")
+
 #Functions used for debugging
 def printContent(string):
     page = BS(string, "xml")
@@ -31,7 +34,7 @@ def getJson(path):
     return json_obj
 
 #Load the personal information
-information = getJson("personal_information.json")[0]
+information = getJson(sys.argv[1])[0]
 bkel_username = information["bkel_username"]
 bkel_password = information["bkel_password"]
 email_sender = information["email_sender"]
@@ -58,7 +61,18 @@ session = requests.Session()
 
 #Phase 1 - Get the needed cookies for the authentication pages
 
-response = session.get(url1)
+for retry in range(MAX_RETRIES): 
+    response = session.get(url1)
+    if response.ok:
+        break
+    else:
+        print("Connect failed with the url!" + response.url)
+        attempts_left = MAX_RETRIES - retry - 1
+        if (attempts_left != 0):
+            print(str(attempts_left) + " attempts left!")
+        else: 
+            print("Stop the program!")
+            quit()
 
 data = {
     "username" : bkel_username,
@@ -72,10 +86,32 @@ for i in range(3, 7):                                                           
 
 #Phase 2 - Bypass the authentication with username and password (and hidden tickets, etc.)
 
-response = session.post(url1, data=data)
+for retry in range(MAX_RETRIES):
+    response = session.post(url1, data=data)
+    if response.ok:
+        break
+    else:
+        print("Connect failed with the url!" + response.url)
+        attempts_left = MAX_RETRIES - retry - 1
+        if (attempts_left != 0):
+            print(str(attempts_left) + " attempts left!")
+        else: 
+            print("Stop the program!")
+            quit()
 
     #Navigate to messages page
-response = session.get(url2)
+for retry in range(MAX_RETRIES):
+    response = session.get(url2)
+    if response.ok:
+        break
+    else:
+        print("Connect failed with the url!" + response.url)
+        attempts_left = MAX_RETRIES - retry - 1
+        if (attempts_left != 0):
+            print(str(attempts_left) + " attempts left!")
+        else: 
+            print("Stop the program!")
+            quit()
 
     #Get the sesskey for the url
 finder = BS(response.content,"lxml")
@@ -90,10 +126,23 @@ json_obj[0]["args"]["userid"] = userid
 json_obj[1]["args"]["userid"] = userid
 
     #Check if there are unread messages
-response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+for retry in range(MAX_RETRIES):
+    response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+    if response.ok:
+        break
+    else:
+        print("Connect failed with the url!" + response.url)
+        attempts_left = MAX_RETRIES - retry - 1
+        if (attempts_left != 0):
+            print((attempts_left) + " attempts left!")
+        else: 
+            print("Stop the program!")
+            quit()
+
 json_response = response.json()
 num_of_unread_chat = json_response[1]["data"]["types"]["1"]
 num_of_total_chat = json_response[0]["data"]["types"]["1"]
+
 if num_of_unread_chat == 0:
     sys.exit("There is none of unread messages")
 else:
@@ -107,7 +156,20 @@ json_obj[0]["args"]["userid"] = userid
 
     #Update the url and get id, and number of unread messages of the unread chats
 json_url = json_url.replace("core_message_get_conversation_counts,core_message_get_unread_conversation_counts", "core_message_get_conversations")
-response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+
+for retry in range(MAX_RETRIES):
+    response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+    if response.ok:
+        break
+    else:
+        print("Connect failed with the url!" + response.url)
+        attempts_left = MAX_RETRIES - retry - 1
+        if (attempts_left != 0):
+            print(str(attempts_left) + " attempts left!")
+        else: 
+            print("Stop the program!")
+            quit()
+
 json_response = response.json()
 
 id_unread_chats = []
@@ -130,7 +192,20 @@ json_url = json_url.replace("core_message_get_conversations", "core_message_get_
 for i in range(0, num_of_unread_chat):
     json_obj[0]["args"]["convid"] = int(id_unread_chats[i])
     json_obj[0]["args"]["limitnum"] = int(num_unread_messages[i])
-    response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+    
+    for retry in range(MAX_RETRIES):
+        response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+        if response.ok:
+            break
+        else:
+            print("Connect failed with the url!" + response.url)
+            attempts_left = MAX_RETRIES - retry - 1
+            if (attempts_left != 0):
+                print(str(attempts_left) + " attempts left!")
+            else: 
+                print("Stop the program!")
+                quit()
+    
     json_response = response.json()
     author = json_response[0]["data"]["members"][0]["fullname"]
     messages[author] = []
@@ -150,7 +225,20 @@ json_obj[0]["args"]["userid"] = int(userid)
 json_url = json_url.replace("core_message_get_conversation_messages", "core_message_mark_all_conversation_messages_as_read")
 for i in range(0, num_of_unread_chat):
     json_obj[0]["args"]["conversationid"] = int(id_unread_chats[i])
-    response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+    
+    for retry in range(MAX_RETRIES):
+        response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+        if response.ok:
+            break
+        else:
+            print("Connect failed with the url!" + response.url)
+            attempts_left = MAX_RETRIES - retry - 1
+            if (attempts_left != 0):
+                print(str(attempts_left) + " attempts left!")
+            else: 
+                print("Stop the program!")
+                quit()
+    
     json_response = response.json()
 '''
 session.close()
@@ -184,3 +272,4 @@ if use_option == 2 or use_option == 3:
             file.write(j)
             file.close()
 
+sys.stderr.close()

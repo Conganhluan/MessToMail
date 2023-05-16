@@ -1,13 +1,13 @@
 [
     {
-        "email_sender" : "",
+        "email_sender" : "admin@conganhluan.com",
         "email_receiver" : "",
         "bkel_username" : "",
         "bkel_password" : "",
-        "webmail_host" : "",
+        "webmail_host" : "localhost",
         "SMTP_user" : "",
         "SMTP_password" : "",
         "save_path" : "",
-        "use_option" : 0    
+        "use_option" : 2    
     }
 ]
