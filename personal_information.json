@@ -1,6 +1,6 @@
 [
     {
-        "email_sender" : "admin@conganhluan.com",
+        "email_sender" : "",
         "email_receiver" : "",
         "bkel_username" : "",
         "bkel_password" : "",
@@ -8,6 +8,6 @@
         "SMTP_user" : "",
         "SMTP_password" : "",
         "save_path" : "",
-        "use_option" : 2    
+        "use_option" : 0
     }
 ]
