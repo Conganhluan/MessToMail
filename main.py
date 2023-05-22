@@ -110,8 +110,8 @@ for retry in range(0, MAX_RETRIES):
         if (attempts_left != 0):
             print(str(attempts_left) + " attempts left!")
         else: 
-            print("Quit the program!")
-            quit()
+            print("Pass over the url " + url2)
+            break
 
     #Get the sesskey for the url
 finder = BS(response.content,"lxml")
@@ -137,63 +137,27 @@ for retry in range(0, MAX_RETRIES):
         if (attempts_left != 0):
             print((attempts_left) + " attempts left!")
         else: 
-            print("Quit the program")
-            quit()
+            print("Pass over the url " + json_url)
+            break
 
 json_response = response.json()
 num_of_unread_chat = json_response[1]["data"]["types"]["1"]
 num_of_total_chat = json_response[0]["data"]["types"]["1"]
 
-if num_of_unread_chat == 0:
-    sys.exit("There is none of unread messages")
-else:
-    print("There are " + str(num_of_unread_chat) + " unread chats")
-
-#Phase 3 - Get the unread messages
-
-    #Load the json prepared for the request
-json_obj = getJson("get_unread_chats.json")
-json_obj[0]["args"]["userid"] = userid
-
-    #Update the url and get id, and number of unread messages of the unread chats
-json_url = json_url.replace("core_message_get_conversation_counts,core_message_get_unread_conversation_counts", "core_message_get_conversations")
-
-for retry in range(0, MAX_RETRIES):
-    response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
-    if response.ok:
-        break
-    else:
-        print("Connect failed with the url!" + json_url)
-        attempts_left = MAX_RETRIES - retry - 1
-        if (attempts_left != 0):
-            print(str(attempts_left) + " attempts left!")
-        else: 
-            print("Quit the program")
-            quit()
-
-json_response = response.json()
-
-id_unread_chats = []
-num_unread_messages = []
 messages = {}
-for i in range(0, num_of_total_chat):
-    chat = json_response[0]["data"]["conversations"][i]
-    if (chat["unreadcount"] != None):
-        id_unread_chats.append(chat["id"])
-        num_unread_messages.append(chat["unreadcount"])
+if num_of_unread_chat == 0:
+    sys.stderr.write("There is none of unread messages")
+else:
 
-    #Load the json prepared for the request
-json_obj = getJson("get_messages.json")
-json_obj[0]["args"]["currentuserid"] = int(userid)
+    #Phase 3 - Get the unread messages
 
-    #Update url and get unread messages
-json_url = json_url.replace("core_message_get_conversations", "core_message_get_conversation_messages")
+        #Load the json prepared for the request
+    json_obj = getJson("get_unread_chats.json")
+    json_obj[0]["args"]["userid"] = userid
 
-    #For each unread chat
-for i in range(0, num_of_unread_chat):
-    json_obj[0]["args"]["convid"] = int(id_unread_chats[i])
-    json_obj[0]["args"]["limitnum"] = int(num_unread_messages[i])
-    
+        #Update the url and get id, and number of unread messages of the unread chats
+    json_url = json_url.replace("core_message_get_conversation_counts,core_message_get_unread_conversation_counts", "core_message_get_conversations")
+
     for retry in range(0, MAX_RETRIES):
         response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
         if response.ok:
@@ -206,42 +170,79 @@ for i in range(0, num_of_unread_chat):
             else: 
                 print("Pass over the url " + json_url)
                 break
-    
+
     json_response = response.json()
-    author = json_response[0]["data"]["members"][0]["fullname"]
-    messages[author] = []
 
-        #For each unread messages in that chat
-    for j in range(0, num_unread_messages[i]):
-        message = json_response[0]["data"]["messages"][j]["text"]
-        messages[author].append(message)
+    id_unread_chats = []
+    num_unread_messages = []
+    for i in range(0, num_of_total_chat):
+        chat = json_response[0]["data"]["conversations"][i]
+        if (chat["unreadcount"] != None):
+            id_unread_chats.append(chat["id"])
+            num_unread_messages.append(chat["unreadcount"])
 
-#Phase 4 - Mark messages all read and log out
-'''
-    #Load the json prepared for the request
-json_obj = getJson("mark_messages_read.json")
-json_obj[0]["args"]["userid"] = int(userid)
+        #Load the json prepared for the request
+    json_obj = getJson("get_messages.json")
+    json_obj[0]["args"]["currentuserid"] = int(userid)
 
-    #Update url and mark all messages as read
-json_url = json_url.replace("core_message_get_conversation_messages", "core_message_mark_all_conversation_messages_as_read")
-for i in range(0, num_of_unread_chat):
-    json_obj[0]["args"]["conversationid"] = int(id_unread_chats[i])
-    
-    for retry in range(0, MAX_RETRIES):
-        response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
-        if response.ok:
-            break
-        else:
-            print("Connect failed with the url " + json_url)
-            attempts_left = MAX_RETRIES - retry - 1
-            if (attempts_left != 0):
-                print(str(attempts_left) + " attempts left!")
-            else: 
-                print("Pass over the url " + json_url)
+        #Update url and get unread messages
+    json_url = json_url.replace("core_message_get_conversations", "core_message_get_conversation_messages")
+
+        #For each unread chat
+    for i in range(0, num_of_unread_chat):
+        json_obj[0]["args"]["convid"] = int(id_unread_chats[i])
+        json_obj[0]["args"]["limitnum"] = int(num_unread_messages[i])
+        
+        for retry in range(0, MAX_RETRIES):
+            response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+            if response.ok:
                 break
-    
-    json_response = response.json()
+            else:
+                print("Connect failed with the url!" + json_url)
+                attempts_left = MAX_RETRIES - retry - 1
+                if (attempts_left != 0):
+                    print(str(attempts_left) + " attempts left!")
+                else: 
+                    print("Pass over the url " + json_url)
+                    break
+        
+        json_response = response.json()
+        author = json_response[0]["data"]["members"][0]["fullname"]
+        messages[author] = []
+
+            #For each unread messages in that chat
+        for j in range(0, num_unread_messages[i]):
+            message = json_response[0]["data"]["messages"][j]["text"]
+            messages[author].append(message)
+
+    #Phase 4 - Mark messages all read
 '''
+        #Load the json prepared for the request
+    json_obj = getJson("mark_messages_read.json")
+    json_obj[0]["args"]["userid"] = int(userid)
+
+        #Update url and mark all messages as read
+    json_url = json_url.replace("core_message_get_conversation_messages", "core_message_mark_all_conversation_messages_as_read")
+    for i in range(0, num_of_unread_chat):
+        json_obj[0]["args"]["conversationid"] = int(id_unread_chats[i])
+        
+        for retry in range(0, MAX_RETRIES):
+            response = session.post(json_url, json=json_obj, headers={"Accept": "application/json"})
+            if response.ok:
+                break
+            else:
+                print("Connect failed with the url " + json_url)
+                attempts_left = MAX_RETRIES - retry - 1
+                if (attempts_left != 0):
+                    print(str(attempts_left) + " attempts left!")
+                else: 
+                    print("Pass over the url " + json_url)
+                    break
+        
+        json_response = response.json()
+'''
+
+#Phase 5 - Log out and end the session
 
 for retry in range(0, MAX_RETRIES):
     response = session.get(url_logout)
@@ -258,7 +259,7 @@ for retry in range(0, MAX_RETRIES):
 
 session.close()
 
-#Phase 5 - Send the emails/ Save into the files
+#Phase 6 - Send the emails/ Save into the files
 
     #Send the emails
 if use_option == 1 or use_option == 3:
