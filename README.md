@@ -43,9 +43,4 @@ To install, you download (or clone) the source code, then fill completely your p
     - 2: Convert the messages into .html files and save them in the chosen path
     - 3: Do both
   
-To run the program, you will run `python /path/to/main.py` and it's done. For the most effciency, you should use another programs for scheduling this program to run periodically. If you run this program on your own hosting and encounter error, you may un-commment `#session.verify = False` to fix it. Please let me know when you encounter a bug, I will fix and update the program as soon as possible!  
-  
-## Nguồn tham khảo/ References
-Mình xin gửi lời cảm ơn chân thành đến những người lạ mà mình chưa quen biết, nhưng lại giúp đỡ mình rất nhiều trên các diễn đàn khi mình đang bước trên con đường của sự đau khổ và tuyệt vọng. Cụ thể hơn, những trang web mình đã học tập, tham khảo, cũng như tham gia vào các cuộc hỏi đáp hữu ích từ những người đi trước sẽ được mình để ở bài viết của mình https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, các bạn hãy đón xem nha!  
-  
-I would love to say sincerely "thank you" to those all strangers, whom I have ever known, but have helped me a lot on the forums when I am feeling depressed and painful. For more detail, the websites that I have learned, referenced, and taken part in extremely useful Q&As from predecessors will be revealed on the post https://conganhluan.com/personal-blog/hcmut-student/how-i-created-the-tool-mess-to-mail/, looking forward to seeing you there!
+To run the program, you will run `python /path/to/main.py` and it's done. For the most effciency, you should use another programs for scheduling this program to run periodically. If you run this program on your own hosting and encounter error, you may un-commment `#session.verify = False` to fix it. Please let me know when you encounter a bug, I will fix and update the program as soon as possible!
